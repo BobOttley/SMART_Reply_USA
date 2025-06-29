@@ -1,4 +1,4 @@
-flask==2.3.3
+Flask==2.3.3
 flask-cors==4.0.0
 python-dotenv==1.0.1
 openai>=1.31.0
@@ -6,4 +6,9 @@ numpy==1.26.4
 gunicorn==20.1.0
 markdown==3.6
 beautifulsoup4==4.12.3
+PyPDF2==3.0.1
+requests==2.31.0
+tqdm==4.66.4
+scikit-learn==1.4.2
+
 
