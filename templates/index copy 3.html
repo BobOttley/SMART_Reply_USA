@@ -4,7 +4,173 @@
   <meta charset="UTF-8" />
   <title>SMART Reply | Smart Admissions Assistant</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet" />
-  <style>
+  
+
+
+
+<style>
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 6rem;
+    align-items: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+  }
+
+  .sidebar-container.open {
+  display: flex !important;
+  }
+  .sidebar-btn {
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1rem;
+    width: auto;
+  }
+  .sidebar-btn:hover {
+    background: var(--brand-blue-hover);
+  }
+</style>
+
+<style>
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 4.5rem;
+    align-items: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+}
+  .sidebar-btn {
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1rem;
+    width: auto;
+  }
+  .sidebar-btn:hover {
+    background: var(--brand-blue-hover);
+  }
+</style>
+
+<style>
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 3.5rem;
+    align-items: flex-start;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+}
+  .sidebar-btn {
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1rem;
+    width: auto;
+  }
+  .sidebar-btn:hover {
+    background: var(--brand-blue-hover);
+  }
+</style>
+
+<style>
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+}
+  .sidebar-btn {
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1rem;
+    width: auto;
+  }
+  .sidebar-btn:hover {
+    background: var(--brand-blue-hover);
+  }
+</style>
+
+<style>
     :root {
       --brand-blue: #003366;
       --brand-blue-hover: #002244;
@@ -150,6 +316,67 @@
   </style>
 </head>
 <body>
+
+<style>
+  .main-layout {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+}
+  .sidebar-btn {
+    width: 100%;
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1rem;
+  }
+  .sidebar-btn:hover {
+    background: var(--brand-blue-hover);
+  }
+
+.sidebar-container {
+  position: absolute;
+  top: 80px;
+  right: 2rem;
+  width: 200px;
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1001;
+}
+.sidebar-container.open {
+  display: flex !important;
+}
+
+</style>
+
+<div class="main-layout">
+  <div class="app-container">
+
   <div class="container" role="main">
     <div style="display: flex; align-items: center; justify-content: space-between;">
       <h1>SMART Reply</h1>
@@ -161,12 +388,6 @@
       </div>
     </div>
     <p class="subtext">Paste a parent email or enquiry form below — SMART Reply will write a professional reply using the School’s official information.</p>
-
-    <label>Message Type:</label>
-    <div id="messageTypeGroup" style="margin-bottom: 12px;">
-      <button type="button" class="typeBtn active" data-type="email">Email</button>
-    </div>
-    <input type="hidden" id="sourceType" value="email">
 
     <label for="parentMessage">Parent Email:</label>
     <textarea id="parentMessage" placeholder="E.g. Do you offer wrap-around care or bursaries for siblings?"></textarea>
@@ -197,14 +418,14 @@
 
       <label for="urlBox" style="margin-top:1rem;display:block;">💡 Add Smart Links to Your Replies</label>
       <div class="field-desc" style="margin-bottom:.4rem;">
-        Automatically turn important phrases (like <em>Head</em> or <em>Visit Us</em>) into clickable links.<br><br>
+        Automatically turn important phrases (like <em>Head of School</em> or <em>Visit Us</em>) into clickable links.<br><br>
         <strong>How it works:</strong><br>
         Just type each phrase and the webpage you want it to link to.<br>
         Use this format:<br>
-        <code>Head=https://site.com/head; Visit Us=https://site.com/visit</code><br><br>
+        <code>Head of School=https://site.com/head-of-sccool; Visit Us=https://site.com/visit</code><br><br>
         👉 Separate each pair with a semicolon (<code>;</code>)
       </div>
-      <textarea id="urlBox" style="width:100%;padding:1rem;height:80px;margin-bottom:1rem;" placeholder="E.g. Head=https://..., Visit Us=https://..."></textarea>
+      <textarea id="urlBox" style="width:100%;padding:1rem;height:80px;margin-bottom:1rem;" placeholder="E.g. Head of School=https://..., Visit Us=https://..."></textarea>
 
       <label style="font-size: 0.9em; display: block; margin-bottom: 0.5rem;">
         <input type="checkbox" id="ctaToggle" checked />
@@ -219,19 +440,60 @@
     </div>
   </div>
 
-  <!-- PDF Upload Section -->
-  <div class="container">
-    <hr style="margin: 2rem 0;">
-    <h3>📄 Upload Policy PDFs to Expand Knowledge Base</h3>
-    <form id="uploadForm" enctype="multipart/form-data">
-      <input type="file" name="pdfs" id="pdfs" accept="application/pdf" multiple required>
-      <button type="submit">Upload PDFs</button>
-      <span id="uploadStatus" style="margin-left: 1rem;"></span>
-    </form>
-  </div>
-
   <script>
-    const $ = id => document.getElementById(id);
+  document.addEventListener("DOMContentLoaded", () => {
+    const pdfLibraryBtn = document.getElementById("pdfLibraryBtn");
+    const pdfLibraryModal = document.getElementById("pdfLibraryModal");
+    const pdfList = document.getElementById("pdfList");
+
+    pdfLibraryBtn.addEventListener("click", async () => {
+      const res = await fetch("/list-pdfs");
+      const files = await res.json();
+
+      pdfList.innerHTML = "";
+      files.forEach(file => {
+        const li = document.createElement("li");
+        li.style.marginBottom = "0.5rem";
+        const encodedURL = encodeURIComponent(file.url).replace(/%2F/g, "/");
+        li.innerHTML = `<a href="${encodedURL}" target="_blank" rel="noopener">${file.name}</a>`;
+
+        pdfList.appendChild(li);
+      });
+
+      pdfLibraryModal.style.display = "block";
+    });
+
+    function closePdfLibrary() {
+      pdfLibraryModal.style.display = "none";
+    }
+const $ = id => document.getElementById(id);
+
+    const linkMappingsBtn = document.getElementById("linkMappingsBtn");
+    const linkMappingsModal = document.getElementById("linkMappingsModal");
+    const linkMappingsContainer = document.getElementById("linkMappingsContainer");
+
+    if (linkMappingsBtn) {
+      linkMappingsBtn.addEventListener("click", () => {
+        const urlBox = document.getElementById("urlBox");
+        const pairs = urlBox.value.split(';').map(p => p.trim()).filter(Boolean);
+        linkMappingsContainer.innerHTML = '';
+
+        pairs.forEach(pair => {
+          const [key, val] = pair.split('=');
+          const row = document.createElement("div");
+          row.style.marginBottom = "0.5rem";
+          row.innerHTML = `
+            <input type="text" value="${key || ''}" placeholder="Anchor Text" style="width:45%; margin-right:1%">
+            <input type="text" value="${val || ''}" placeholder="https://..." style="width:45%">
+            <button onclick="this.parentNode.remove()">❌</button>
+          `;
+          linkMappingsContainer.appendChild(row);
+        });
+
+        linkMappingsModal.style.display = 'block';
+      });
+    }
+
     const submitBtn = $('submitBtn'), clearBtn = $('clearBtn'), loadingSp = $('loading'),
           replyBox = $('replyBox'), sentimentBox = $('sentimentBox'), errorBox = $('errorBox'),
           textarea = $('parentMessage'), instructionEl = $('instructionBox'), urlEl = $('urlBox'),
@@ -239,19 +501,6 @@
           reviseSection = $('reviseSection'), replyLabel = $('replyLabel');
 
     let lastMessage = '', lastReply = '';
-
-    document.querySelectorAll(".typeBtn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".typeBtn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        $('sourceType').value = btn.dataset.type;
-        const labelEl = document.querySelector('label[for="parentMessage"]');
-        labelEl.textContent = btn.dataset.type === 'email' ? 'Parent Email:' : 'Parent Enquiry Form:';
-        textarea.placeholder = btn.dataset.type === 'email'
-          ? 'E.g. Do you offer wrap-around care or bursaries for siblings?'
-          : 'Paste enquiry form details here…';
-      });
-    });
 
     textarea.addEventListener("keydown", e => {
       if (e.key === "Enter" && !e.shiftKey) {
@@ -287,7 +536,7 @@
       prepUI();
       try {
         const include_cta = $('ctaToggle').checked;
-        const source_type = $('sourceType').value;
+        const source_type = "email";
         const res = await fetch("/reply", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
@@ -405,8 +654,544 @@
       });
 
       const msg = await res.text();
-      status.textContent = msg;
+      const successBox = document.getElementById("uploadStatusSuccess");
+      const errorBox = document.getElementById("uploadStatusError");
+
+      // Reset display
+      successBox.style.display = "none";
+      errorBox.style.display = "none";
+      successBox.innerHTML = "";
+      errorBox.innerHTML = "";
+
+      // Parse result
+      const successMatch = msg.match(/✅ Uploaded: (.+?)(<br|$)/);
+      const errorMatch = msg.match(/⚠️ Issues detected: (.+)$/);
+
+      if (successMatch) {
+        successBox.innerHTML = `<strong>✅ Uploaded:</strong><br>${successMatch[1].trim()}`;
+        successBox.style.display = "block";
+      }
+      if (errorMatch) {
+        errorBox.innerHTML = `<strong>⚠️ Issues detected:</strong><br>${errorMatch[1].trim()}`;
+        errorBox.style.display = "block";
+      }
+
     });
-  </script>
+  
+
+});
+
+
+  // Link Mappings Modal
+  const linkMappingsBtn = document.getElementById("linkMappingsBtn");
+  const linkMappingsModal = document.getElementById("linkMappingsModal");
+  const linkMappingsContainer = document.getElementById("linkMappingsContainer");
+
+  if (linkMappingsBtn) {
+    linkMappingsBtn.addEventListener("click", () => {
+      openLinkMappings();
+    });
+  }
+
+  function openLinkMappings() {
+    const urlBox = document.getElementById("urlBox");
+    const pairs = urlBox.value.split(';').map(p => p.trim()).filter(Boolean);
+    linkMappingsContainer.innerHTML = '';
+
+    pairs.forEach(pair => {
+      const [key, val] = pair.split('=');
+      const row = document.createElement("div");
+      row.style.marginBottom = "0.5rem";
+      row.innerHTML = `
+        <input type="text" value="${key || ''}" placeholder="Anchor Text" style="width:45%; margin-right:1%">
+        <input type="text" value="${val || ''}" placeholder="https://..." style="width:45%">
+        <button onclick="this.parentNode.remove()">❌</button>
+      `;
+      linkMappingsContainer.appendChild(row);
+    });
+
+    linkMappingsModal.style.display = 'block';
+  }
+
+  function addMappingRow() {
+    const row = document.createElement("div");
+    row.style.marginBottom = "0.5rem";
+    row.innerHTML = `
+      <input type="text" placeholder="Anchor Text" style="width:45%; margin-right:1%">
+      <input type="text" placeholder="https://..." style="width:45%">
+      <button onclick="this.parentNode.remove()">❌</button>
+    `;
+    linkMappingsContainer.appendChild(row);
+  }
+
+  function saveLinkMappings() {
+    const urlBox = document.getElementById("urlBox");
+    const rows = linkMappingsContainer.querySelectorAll("div");
+    const mappings = [];
+
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll("input");
+      const key = inputs[0].value.trim();
+      const val = inputs[1].value.trim();
+      if (key && val) mappings.push(`${key}=${val}`);
+    });
+
+    urlBox.value = mappings.join("; ");
+    linkMappingsModal.style.display = "none";
+  }
+
+  function closeLinkMappings() {
+    linkMappingsModal.style.display = "none";
+  }
+
+  });
+</script>
+
+  </div>
+  
+<button id="sidebarToggle" title="Menu" style="
+  position: absolute;
+  right: 2rem;
+  top: 2rem;
+  font-size: 1.6rem;
+  background: var(--brand-blue);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 1000;
+">☰</button>
+
+<div class="sidebar-container">
+    <button class="sidebar-btn" id="pdfLibraryBtn" title="View and manage uploaded PDFs">PDF Library</button>
+    <button class="sidebar-btn" id="editRepliesBtn" title="View and edit saved replies">Edit Replies</button>
+    <button class="sidebar-btn" id="linkMappingsBtn" title="Manage smart links and anchors">Link Mappings</button>
+    <button class="sidebar-btn" id="usageInsightsBtn" title="View reply volume and sentiment trends">Usage Insights</button>
+<button class="sidebar-btn" id="uploadTriggerBtn">Upload PDFs</button>
+<input type="file" id="pdfs" accept="application/pdf" multiple style="display:none;">
+<div id="uploadStatusSuccess" class="upload-success-box" style="display:none;"></div>
+<div id="uploadStatusError" class="upload-error-box" style="display:none;"></div>
+
+  </div>
+</div>
+
+<div id="pdfLibraryModal" style="
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 90%;
+  z-index: 2000;
+">
+  <h2 style="margin-top:0">📚 PDF Library</h2>
+  <ul id="pdfList" style="list-style:none;padding-left:0;"></ul>
+  <div style="text-align:right; margin-top:1rem;">
+    <button onclick="closePdfLibrary()">Close</button>
+  </div>
+</div>
+
+
+
+
+<script>
+
+
+    pdfInput.addEventListener("change", async () => {
+  const files = pdfInput.files;
+  if (!files.length) return;
+
+  const formData = new FormData();
+  for (let f of files) formData.append("pdfs", f);
+
+  uploadStatus.textContent = "Uploading...";
+  uploadStatus.style.color = "#333";
+  uploadStatus.style.background = "none";
+
+  const res = await fetch("/upload-pdfs", {
+    method: "POST",
+    body: formData
+  });
+
+  const msg = await res.text();
+  const hasWarning = msg.includes("⚠️");
+  const hasSuccess = msg.includes("✅");
+
+  if (hasWarning) {
+    uploadStatus.style.color = "#a00";
+    uploadStatus.style.background = "#ffe9e9";
+    uploadStatus.style.borderLeft = "4px solid #d33c3c";
+    uploadStatus.style.padding = "0.8rem";
+    uploadStatus.style.marginTop = "1rem";
+  } else {
+    uploadStatus.style.color = "#2d6240";
+    uploadStatus.style.background = "#f4fdf2";
+    uploadStatus.style.borderLeft = "4px solid #47B881";
+    uploadStatus.style.padding = "0.8rem";
+    uploadStatus.style.marginTop = "1rem";
+  }
+   .upload-success-box {
+    background: #f4fdf2;
+    border-left: 4px solid #47B881;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #2d6240;
+    border-radius: 6px;
+  }
+
+  .upload-error-box {
+    background: #ffe9e9;
+    border-left: 4px solid #d33c3c;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #a00;
+    border-radius: 6px;
+  }
+
+
+  uploadStatus.innerHTML = msg;
+});
+
+
+      const msg = await res.text();
+      uploadStatus.innerHTML = `✅ <strong>Upload complete:</strong><br><code>${msg}</code>`;
+    });
+  });
+</script>
+
+
+<script>
+const pdfInput = document.getElementById("pdfs");
+const uploadTriggerBtn = document.getElementById("uploadTriggerBtn");
+const uploadStatusSuccess = document.getElementById("uploadStatusSuccess");
+const uploadStatusError = document.getElementById("uploadStatusError");
+
+uploadTriggerBtn.addEventListener("click", () => {
+  pdfInput.click();
+});
+
+pdfInput.addEventListener("change", async () => {
+  const files = pdfInput.files;
+  if (!files.length) return;
+
+  const formData = new FormData();
+  for (let f of files) formData.append("pdfs", f);
+
+  uploadStatusSuccess.style.display = "none";
+  uploadStatusError.style.display = "none";
+
+  const res = await fetch("/upload-pdfs", {
+    method: "POST",
+    body: formData
+  });
+
+  const msg = await res.text();
+
+  const hasWarning = msg.includes("⚠️");
+  const hasSuccess = msg.includes("✅");
+
+  if (hasSuccess) {
+    uploadStatusSuccess.innerHTML = `<strong>✅ Uploaded:</strong><br>${msg}`;
+    uploadStatusSuccess.style.display = "block";
+  }
+  if (hasWarning) {
+    uploadStatusError.innerHTML = `<strong>⚠️ Issues detected:</strong><br>${msg}`;
+    uploadStatusError.style.display = "block";
+  }
+});
+</script>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Sidebar toggle
+  const sidebarToggle = document.getElementById("sidebarToggle");
+  const sidebarContainer = document.querySelector(".sidebar-container");
+  if (sidebarToggle && sidebarContainer) {
+    sidebarToggle.addEventListener("click", () => {
+      sidebarContainer.classList.toggle("open");
+    });
+  }
+
+  // PDF modal logic
+  const pdfLibraryBtn = document.getElementById("pdfLibraryBtn");
+  const pdfLibraryModal = document.getElementById("pdfLibraryModal");
+  const pdfList = document.getElementById("pdfList");
+  const closeBtn = document.querySelector("#pdfLibraryModal button");
+
+  if (pdfLibraryBtn) {
+    pdfLibraryBtn.addEventListener("click", async () => {
+      const res = await fetch("/list-pdfs");
+      const files = await res.json();
+      pdfList.innerHTML = "";
+      files.forEach(file => {
+        const li = document.createElement("li");
+        li.style.marginBottom = "0.5rem";
+        const encodedURL = encodeURIComponent(file.url).replace(/%2F/g, "/");
+        li.innerHTML = `<a href="${encodedURL}" target="_blank" rel="noopener">${file.name}</a>`;
+
+        pdfList.appendChild(li);
+      });
+      pdfLibraryModal.style.display = "block";
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      pdfLibraryModal.style.display = "none";
+    });
+  }
+
+  // Upload Trigger
+  const pdfInput = document.getElementById("pdfs");
+  const uploadTriggerBtn = document.getElementById("uploadTriggerBtn");
+  const uploadStatusSuccess = document.getElementById("uploadStatusSuccess");
+  const uploadStatusError = document.getElementById("uploadStatusError");
+
+  if (uploadTriggerBtn && pdfInput) {
+    uploadTriggerBtn.addEventListener("click", () => {
+      pdfInput.click();
+    });
+
+    pdfInput.addEventListener("change", async () => {
+      const files = pdfInput.files;
+      if (!files.length) return;
+
+      const formData = new FormData();
+      for (let f of files) formData.append("pdfs", f);
+
+      uploadStatusSuccess.style.display = "none";
+      uploadStatusError.style.display = "none";
+
+      const res = await fetch("/upload-pdfs", {
+        method: "POST",
+        body: formData
+      });
+
+      const msg = await res.text();
+
+      const hasWarning = msg.includes("⚠️");
+      const hasSuccess = msg.includes("✅");
+
+      if (hasSuccess) {
+        uploadStatusSuccess.innerHTML = `<strong>✅ Uploaded:</strong><br>${msg}`;
+        uploadStatusSuccess.style.display = "block";
+      }
+      if (hasWarning) {
+        uploadStatusError.innerHTML = `<strong>⚠️ Issues detected:</strong><br>${msg}`;
+        uploadStatusError.style.display = "block";
+      }
+    });
+  }
+
+  // SMART Reply Logic
+  const $ = id => document.getElementById(id);
+
+    const linkMappingsBtn = document.getElementById("linkMappingsBtn");
+    const linkMappingsModal = document.getElementById("linkMappingsModal");
+    const linkMappingsContainer = document.getElementById("linkMappingsContainer");
+
+    if (linkMappingsBtn) {
+      linkMappingsBtn.addEventListener("click", () => {
+        const urlBox = document.getElementById("urlBox");
+        const pairs = urlBox.value.split(';').map(p => p.trim()).filter(Boolean);
+        linkMappingsContainer.innerHTML = '';
+
+        pairs.forEach(pair => {
+          const [key, val] = pair.split('=');
+          const row = document.createElement("div");
+          row.style.marginBottom = "0.5rem";
+          row.innerHTML = `
+            <input type="text" value="${key || ''}" placeholder="Anchor Text" style="width:45%; margin-right:1%">
+            <input type="text" value="${val || ''}" placeholder="https://..." style="width:45%">
+            <button onclick="this.parentNode.remove()">❌</button>
+          `;
+          linkMappingsContainer.appendChild(row);
+        });
+
+        linkMappingsModal.style.display = 'block';
+      });
+    }
+
+  const submitBtn = $('submitBtn'), clearBtn = $('clearBtn'), loadingSp = $('loading'),
+        replyBox = $('replyBox'), sentimentBox = $('sentimentBox'), errorBox = $('errorBox'),
+        textarea = $('parentMessage'), instructionEl = $('instructionBox'), urlEl = $('urlBox'),
+        reviseEl = $('reviseBox'), reviseBtn = $('reviseBtn'), saveBtn = $('saveBtn'),
+        reviseSection = $('reviseSection'), replyLabel = $('replyLabel');
+
+  let lastMessage = '', lastReply = '';
+
+  textarea.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      submitBtn.click();
+    }
+  });
+
+  reviseEl.addEventListener("keydown", e => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      reviseBtn.click();
+    }
+  });
+
+  replyBox.addEventListener('input', () => {
+    lastReply = replyBox.innerHTML;
+  });
+
+  replyBox.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if (a) {
+      e.preventDefault();
+      window.open(a.href, '_blank', 'noopener noreferrer');
+    }
+  });
+
+  submitBtn.onclick = async () => {
+    const message = textarea.value.trim();
+    const instruction = instructionEl.value.trim();
+    const url_box = urlEl.value.trim();
+    if (!message) return alert("Please paste an email or form before submitting.");
+    prepUI();
+    try {
+      const include_cta = $('ctaToggle').checked;
+      const source_type = "email";
+      const res = await fetch("/reply", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, instruction, url_box, include_cta, source_type })
+      });
+      const data = await res.json();
+      if (res.ok && data.reply) {
+        lastMessage = message;
+        lastReply = data.reply;
+        renderReply(data);
+      } else {
+        throw new Error(data.error || "No reply generated.");
+      }
+    } catch (err) {
+      showError(err.message);
+    }
+  };
+
+  reviseBtn.onclick = async () => {
+    const instruction = reviseEl.value.trim();
+    const url_box = urlEl.value.trim();
+    if (!lastMessage || !lastReply) return alert("Nothing to revise.");
+    if (!instruction && !url_box) return alert("Enter a revision instruction or updated links.");
+    prepUI();
+    try {
+      const res = await fetch("/revise", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: lastMessage, previous_reply: lastReply, instruction, url_box })
+      });
+      const data = await res.json();
+      if (res.ok && data.reply) {
+        lastReply = data.reply;
+        renderReply(data);
+      } else {
+        throw new Error(data.error || "No revision generated.");
+      }
+    } catch (err) {
+      showError(err.message);
+    }
+  };
+
+  saveBtn.onclick = async () => {
+    if (!lastMessage || !lastReply) return alert("Nothing to save.");
+    const urls = urlEl.value.split(';').map(x => x.trim()).filter(Boolean);
+    const res = await fetch("/save-standard", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: lastMessage, reply: lastReply, urls })
+    });
+    $('saveStatus').textContent = res.ok ? "Saved!" : "Error!";
+    setTimeout(() => { $('saveStatus').textContent = ''; }, 2000);
+  };
+
+  clearBtn.onclick = () => {
+    ['parentMessage','instructionBox','urlBox','reviseBox'].forEach(id => $(id).value = '');
+    lastMessage = lastReply = '';
+    ['replyBox','sentimentBox','errorBox'].forEach(id => {
+      $(id).style.display = 'none';
+      $(id).innerHTML = '';
+    });
+    replyLabel.style.display = 'none';
+    reviseSection.style.display = 'none';
+    textarea.focus();
+  };
+
+  function prepUI() {
+    replyBox.innerHTML = "";
+    replyBox.style.display = 'block';
+    sentimentBox.style.display = 'none';
+    errorBox.style.display = 'none';
+    replyLabel.style.display = 'none';
+    submitBtn.disabled = true;
+    loadingSp.style.display = 'inline-block';
+  }
+
+  function renderReply(d) {
+    replyBox.innerHTML = d.reply;
+    replyBox.querySelectorAll("a").forEach(link => {
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noopener noreferrer");
+    });
+    replyBox.style.display = 'block';
+    replyLabel.style.display = 'block';
+    loadingSp.style.display = 'none';
+    submitBtn.disabled = false;
+    reviseSection.style.display = 'block';
+    if (d.sentiment_score !== undefined) {
+      sentimentBox.innerHTML = `<strong>Sentiment Score:</strong> ${d.sentiment_score}/10<br><strong>Strategy:</strong> ${d.strategy_explanation}`;
+      sentimentBox.style.display = 'block';
+    }
+  }
+
+  function showError(message) {
+    loadingSp.style.display = 'none';
+    submitBtn.disabled = false;
+    errorBox.innerHTML = message;
+    errorBox.style.display = 'block';
+  }
+});
+</script>
+
+
+<!-- Link Mappings Modal -->
+<div id="linkMappingsModal" style="
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  padding: 1.5rem;
+  max-width: 600px;
+  width: 95%;
+  z-index: 2000;
+">
+  <h2 style="margin-top:0">🔗 Smart Link Mappings</h2>
+  <div id="linkMappingsContainer" style="margin-bottom: 1rem;"></div>
+  <button onclick="addMappingRow()" style="margin-bottom: 1rem;">➕ Add Mapping</button>
+  <div style="text-align:right;">
+    <button onclick="saveLinkMappings()">Save</button>
+    <button onclick="closeLinkMappings()">Close</button>
+  </div>
+</div>
+
 </body>
 </html>

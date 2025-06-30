@@ -1,5 +1,5 @@
 # ──────────────────────────────
-# 🧠  SMART REPLY BACKEND — FORMATTING FIXED
+# 🧠  SMART REPLY BACKEND — FORMATTING FIXED & ROBUST
 # ──────────────────────────────
 
 import os, json, pickle, re
@@ -9,14 +9,21 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
-from url_mapping import URL_MAPPING
-from flask import request
 from werkzeug.utils import secure_filename
 from embedding_utils import process_pdf_and_append_to_kb
-
-
+from flask import send_from_directory
 
 # ───────────── HELPERS ─────────────
+
+def load_url_mapping():
+    try:
+        namespace = {}
+        with open("url_mapping.py", "r") as f:
+            exec(f.read(), namespace)
+        return namespace.get("URL_MAPPING", {})
+    except Exception as e:
+        print(f"❌ Failed to load URL_MAPPING dynamically: {e}")
+        return {}
 
 def parse_url_box(url_text):
     url_map = {}
@@ -32,15 +39,13 @@ def insert_links(text, url_map):
         word = match.group(0)
         for anchor, url in url_map.items():
             if word.lower() == anchor.lower():
-                # Force valid Markdown (quoted + parenthesis-safe)
-                safe_url = url.replace(')', '%29').replace('(', '%28')  # escape problematic chars
+                safe_url = url.replace(')', '%29').replace('(', '%28')
                 return f"[{word}]({safe_url})"
         return word
 
     sorted_anchors = sorted(url_map.keys(), key=len, reverse=True)
     pattern = r'\b(' + '|'.join(re.escape(a) for a in sorted_anchors) + r')\b'
     return re.sub(pattern, safe_replace, text, flags=re.IGNORECASE)
-
 
 def remove_personal_info(text: str) -> str:
     PII_PATTERNS = [
@@ -69,94 +74,55 @@ def markdown_to_html(text: str) -> str:
     return '\n'.join(f'<p>{p.strip()}</p>' for p in paragraphs if p.strip())
 
 def markdown_to_outlook_html(md: str) -> str:
-    """
-    Convert Markdown to Outlook-compatible HTML with proper formatting
-    Handles signatures, paragraphs, and ensures proper HTML attribute quoting
-    """
     if not md.strip():
         return ""
-    
-    # Step 1: Handle markdown links - convert to proper HTML with quoted attributes
     md = re.sub(r'\[([^\]]+)\]\((https?://[^\)]+)\)', 
                 lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', md)
-    
-    # Step 2: Split content into paragraphs (separated by double line breaks)
     paragraphs = re.split(r'\n\s*\n', md.strip())
-    
     processed_paragraphs = []
-    
     for paragraph in paragraphs:
         paragraph = paragraph.strip()
         if not paragraph:
             continue
-            
         lines = paragraph.split('\n')
-        
-        # Step 3: Detect if this is a signature block
-        # Signatures typically have:
-        # - Multiple lines
-        # - Contains titles, names, or contact info
-        # - Short lines (names, titles, school name)
         is_signature = (
             len(lines) > 1 and 
             any(re.search(r'\b(Mrs?\.?|Ms\.?|Mr\.?|Director|Manager|School|College|University|Tel:|Email:|Phone:)', 
                          line, re.I) for line in lines)
         )
-        
         if is_signature:
-            # For signatures: each line should be separated by <br>
-            # Remove empty lines and join with <br>
             clean_lines = [line.strip() for line in lines if line.strip()]
             processed_paragraphs.append('<br>'.join(clean_lines))
         else:
-            # For regular content: replace single line breaks with <br>
-            # This preserves intentional line breaks within paragraphs
             paragraph_html = paragraph.replace('\n', '<br>')
             processed_paragraphs.append(paragraph_html)
-    
-    # Step 4: Join all paragraphs with double <br> for proper spacing
     result = '<br><br>'.join(processed_paragraphs)
-    
-    # Step 5: Final cleanup — ensure all href attributes are safely quoted
-    result = re.sub(r'href=([^\s">]+)', r'href="\1"', result)  # ensure all href= are quoted
-    result = re.sub(r'<a\s+href="([^"]+)"\s*>([^<]+)</a>', r'<a href="\1">\2</a>', result)  # ensure well-formed links
-
-    
+    result = re.sub(r'href=([^\s">]+)', r'href="\1"', result)
+    result = re.sub(r'<a\s+href="([^"]+)"\s*>([^<]+)</a>', r'<a href="\1">\2</a>', result)
     return result
 
 def clean_gpt_email_output(md: str) -> str:
     md = md.strip()
-
-    # Remove any markdown fences
     md = re.sub(r"^```(?:markdown)?", "", md, flags=re.I).strip()
     md = re.sub(r"```$", "", md, flags=re.I).strip()
-
-    # Remove known heading formats (Subject or fake header lines)
     lines = md.splitlines()
-
     if lines:
         first_line = lines[0].strip()
         if (
-            len(first_line) < 80 and  # short, heading-like
+            len(first_line) < 80 and
             not first_line.lower().startswith("dear") and
             not first_line.endswith(".") and
             not first_line.endswith(":")
         ):
-            # Remove the first line if it looks like a heading
             lines = lines[1:]
-
-    # Rejoin and clean markdown formatting
     md = "\n".join(lines).strip()
-    md = re.sub(r"\*\*(.*?)\*\*", r"\1", md)  # remove bold
-    md = re.sub(r"\*(.*?)\*", r"\1", md)      # remove italic
-
+    md = re.sub(r"\*\*(.*?)\*\*", r"\1", md)
+    md = re.sub(r"\*(.*?)\*", r"\1", md)
     return md.strip()
-
-
 
 def cosine_similarity(a, b): return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
-def get_safe_url(label: str) -> str: return URL_MAPPING.get(label, "")
+def get_safe_url(label: str) -> str: return load_url_mapping().get(label, "")
 
 # ───────────── APP SETUP ─────────────
 
@@ -171,14 +137,30 @@ SIMILARITY_THRESHOLD = 0.30
 RESPONSE_LIMIT = 3
 STANDARD_MATCH_THRESHOLD = 0.85
 
-try:
-    with open("./embeddings/metadata.pkl", "rb") as f:
-        kb = pickle.load(f)
-        doc_embeddings = np.array(kb["embeddings"])
-        metadata = kb["messages"]
-    print(f"✅ Loaded {len(metadata)} website chunks from metadata.pkl")
-except:
-    doc_embeddings, metadata = [], []
+def safe_load_metadata():
+    try:
+        with open("./embeddings/metadata.pkl", "rb") as f:
+            kb = pickle.load(f)
+            doc_embeddings = kb.get("embeddings")
+            metadata = kb.get("messages")
+        # Defensive type checks
+        if isinstance(doc_embeddings, np.ndarray):
+            doc_embeddings = doc_embeddings.tolist()
+        if not isinstance(doc_embeddings, list):
+            print("ERROR: doc_embeddings is not a list or array! Resetting to empty list.")
+            doc_embeddings = []
+        if not isinstance(metadata, list):
+            print("ERROR: metadata is not a list! Resetting to empty list.")
+            metadata = []
+        doc_embeddings = np.array(doc_embeddings)
+        return doc_embeddings, metadata
+    except Exception as e:
+        print(f"❌ Error loading metadata.pkl: {e}")
+        return np.array([]), []
+
+doc_embeddings, metadata = safe_load_metadata()
+
+print(f"✅ Loaded {len(metadata)} website chunks from metadata.pkl")
 
 standard_messages, standard_embeddings, standard_replies = [], [], []
 
@@ -210,12 +192,183 @@ def check_standard_match(q_vec: np.ndarray) -> str:
         return standard_replies[best_idx]
     return ""
 
+# ───────────── PDF MANAGEMENT ENDPOINTS ─────────────
+
+UPLOAD_FOLDER = "uploaded_pdfs"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route("/upload-pdfs", methods=["POST"])
+def upload_pdfs():
+    files = request.files.getlist("pdfs")
+    saved, flagged = [], []
+
+    for file in files:
+        fname = secure_filename(file.filename)
+        if not fname.lower().endswith(".pdf"):
+            continue
+
+        path = os.path.join(UPLOAD_FOLDER, fname)
+        file.save(path)
+
+        try:
+            chunks = process_pdf_and_append_to_kb(path)
+            if chunks == -1 or chunks == 0:
+                flagged.append(f"{fname} (unusable PDF)")
+            else:
+                saved.append(f"{fname} ({chunks} chunks)")
+        except Exception as e:
+            flagged.append(f"{fname} (error: {str(e)})")
+
+    if not saved and not flagged:
+        return "❌ No valid PDFs uploaded."
+
+    msg = ""
+    if saved:
+        msg += f"✅ Uploaded: {', '.join(saved)}"
+    if flagged:
+        msg += f"<br><br>⚠️ Issues detected: {', '.join(flagged)}"
+    return msg
+
+@app.route("/list-pdfs")
+def list_pdfs():
+    try:
+        files = os.listdir(UPLOAD_FOLDER)
+        files = [f for f in files if f.lower().endswith(".pdf")]
+        files.sort()
+
+        file_links = [
+            {"name": f, "url": f"/uploaded_pdfs/{f}"}
+            for f in files
+        ]
+        return jsonify(file_links)
+    except Exception as e:
+        return jsonify([]), 500
+
+@app.route('/uploaded_pdfs/<path:filename>')
+def serve_pdf(filename):
+    return send_from_directory('uploaded_pdfs', filename)
+
+@app.route("/rename-pdf", methods=["POST"])
+def rename_pdf():
+    try:
+        data = request.get_json(force=True, silent=True)
+        if not isinstance(data, dict):
+            return jsonify({"error": "Request data must be a JSON object."}), 400
+        url = data.get("url")
+        new_name = data.get("newName")
+        if not url or not new_name:
+            return jsonify({"error": "URL and new name are required"}), 400
+
+        old_filename = os.path.basename(url)
+        if not old_filename.lower().endswith(".pdf"):
+            return jsonify({"error": "Invalid PDF URL"}), 400
+
+        new_filename = secure_filename(new_name)
+        if not new_filename.lower().endswith(".pdf"):
+            new_filename += ".pdf"
+
+        old_path = os.path.join(UPLOAD_FOLDER, old_filename)
+        new_path = os.path.join(UPLOAD_FOLDER, new_filename)
+
+        if not os.path.exists(old_path):
+            return jsonify({"error": "PDF file not found"}), 404
+        if os.path.exists(new_path):
+            return jsonify({"error": "A file with the new name already exists"}), 400
+
+        os.rename(old_path, new_path)
+
+        # Update metadata.pkl to reflect the renamed file
+        try:
+            with open("./embeddings/metadata.pkl", "rb") as f:
+                kb = pickle.load(f)
+                doc_embeds = kb.get("embeddings")
+                metas = kb.get("messages")
+            if isinstance(doc_embeds, np.ndarray):
+                doc_embeds = doc_embeds.tolist()
+            if not isinstance(metas, list): metas = []
+            for item in metas:
+                if item.get("url") == f"/uploaded_pdfs/{old_filename}":
+                    item["url"] = f"/uploaded_pdfs/{new_filename}"
+                    item["name"] = new_filename
+            with open("./embeddings/metadata.pkl", "wb") as f:
+                pickle.dump({"embeddings": doc_embeds, "messages": metas}, f)
+        except Exception as e:
+            print(f"⚠️ Failed to update metadata.pkl for rename: {e}")
+
+        return jsonify({"status": "renamed", "new_url": f"/uploaded_pdfs/{new_filename}"})
+    except Exception as e:
+        print(f"❌ RENAME ERROR: {e}")
+        return jsonify({"error": f"Failed to rename PDF: {str(e)}"}), 500
+
+@app.route("/delete-pdf", methods=["POST"])
+def delete_pdf():
+    print("DEBUG: /delete-pdf called")
+    try:
+        data = request.get_json(force=True, silent=True)
+        print(f"DEBUG: type(data)={type(data)}, data={data}")
+        if not isinstance(data, dict) or "filename" not in data:
+            raise ValueError("Missing 'filename' in request or invalid payload.")
+
+        fname = data["filename"]
+        print(f"🧹 Attempting to delete: {fname}")
+
+        file_path = os.path.join("uploaded_pdfs", fname)
+        print(f"📂 File path resolved to: {file_path}")
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"🗑️ File removed from disk.")
+        else:
+            print(f"⚠️ File not found on disk. Continuing to clean metadata.")
+
+        global metadata, doc_embeddings
+
+        original_len = len(metadata)
+        new_metadata, new_embeddings = [], []
+
+        for m, e in zip(metadata, doc_embeddings):
+            if isinstance(m, dict):
+                source = m.get("source", "")
+            else:
+                print(f"WARNING: metadata entry is not a dict: {m}")
+                source = ""
+            if fname not in source:
+                new_metadata.append(m)
+                new_embeddings.append(e)
+
+        print(f"🧼 Original chunks: {original_len} → After delete: {len(new_metadata)}")
+
+        # Extra sanity check
+        for m in new_metadata:
+            if isinstance(m, dict) and fname in m.get("source", ""):
+                print(f"⚠️ Still contains reference to deleted file: {m.get('source')}")
+
+        # Update global state
+        metadata.clear()
+        metadata.extend(new_metadata)
+        doc_embeddings = np.array(new_embeddings)
+
+        # Save updated pickle
+        with open("embeddings/metadata.pkl", "wb") as f:
+            pickle.dump({"embeddings": doc_embeddings.tolist(), "messages": metadata}, f)
+
+        print("DEBUG: returning success response from /delete-pdf")
+        return jsonify({
+            "message": f"🗑️ Deleted file: {fname}, removed {original_len - len(new_metadata)} chunks."
+        }), 200
+
+    except Exception as e:
+        print(f"❌ DELETE ERROR: {type(e)} {e}")
+        return jsonify({"error": str(e)}), 500
+
+# ───────────── REPLY ENDPOINTS ─────────────
+
 @app.route("/reply", methods=["POST"])
 def generate_reply():
     try:
         body = request.get_json(force=True)
         question_raw = (body.get("message") or "").strip()
-        source_type = body.get("source_type", "email")  # default to "email" if not provided
+        source_type = body.get("source_type", "email")
         include_cta = body.get("include_cta", True)
         url_box_text = (body.get("url_box") or "").strip()
         instruction_raw = (body.get("instruction") or "").strip()
@@ -239,7 +392,6 @@ def generate_reply():
                 "url": "", "link_label": ""
             })
 
-        # Sentiment detection
         sent_prompt = f"""
 You are an expert school admissions assistant.
 
@@ -265,7 +417,6 @@ Enquiry:
         except:
             score, strat = 5, ""
 
-        # Search top context
         sims = [(cosine_similarity(q_vec, vec), meta) for vec, meta in zip(doc_embeddings, metadata)]
         top = sorted([m for m in sims if m[0] >= SIMILARITY_THRESHOLD], key=lambda x: x[0], reverse=True)[:RESPONSE_LIMIT]
         if not top:
@@ -278,7 +429,6 @@ Enquiry:
         top_context = "\n---\n".join(context_blocks)
         today_date = datetime.now().strftime('%d %B %Y')
 
-        # Topic detection for CTA
         topic = "general"
         q_lower = question.lower()
         if "visit" in q_lower or "tour" in q_lower:
@@ -293,9 +443,6 @@ Enquiry:
         else:
             message_intro = "Parent Email:"
 
-
-
-        # Email prompt
         prompt = f"""
 TODAY'S DATE IS {today_date}.
 
@@ -304,10 +451,9 @@ You are responding on behalf of the admissions team at an independent Preschool�
 Please write a warm, professional, and helpful email reply to the parent below. If the inquiry came from a form, treat it the same as an email — respond directly and naturally. Only use the verified school information provided below. If the parent is likely to benefit, include a hyperlink to the appropriate section of the website.
 
 Only use URLs provided in this dictionary:
-{json.dumps(URL_MAPPING, indent=2)}
+{json.dumps(load_url_mapping(), indent=2)}
 
 Do not mention viewbooks, or brochures or invent any links, that do not appear in that list.
-
 
 Follow these essential rules:
 - Use American spelling and terminology (e.g. enrollment, program, counselor, fall, etc.)
@@ -316,7 +462,6 @@ Follow these essential rules:
 - DO use clear, professional phrasing — don’t sound robotic or generic
 - NEVER include raw URLs or vague anchors like "click here" or "more info"
 - NEVER include bullet points — use short, readable paragraphs
-
 
 End your reply with a simple professional closing, such as:
 
@@ -338,7 +483,6 @@ School Info:
         ).choices[0].message.content.strip()
         reply_md = clean_gpt_email_output(reply_md)
 
-        # Insert subtle CTA just before sign-off
         if include_cta:
             cta_line = ""
             if topic == "visit":
@@ -352,7 +496,6 @@ School Info:
       
             if cta_line and "Kind regards" in reply_md:
                 reply_md = reply_md.replace("Kind regards", f"{cta_line}\n\nKind regards")
-
 
         reply_md = insert_links(reply_md, url_map)
         reply_html = markdown_to_html(reply_md)
@@ -381,9 +524,6 @@ School Info:
 
 @app.route("/revise", methods=["POST"])
 def revise_reply():
-    """
-    Revise an existing reply based on user instructions
-    """
     try:
         body = request.get_json(force=True)
         message = (body.get("message") or "").strip()
@@ -394,16 +534,12 @@ def revise_reply():
         if not message or not previous_reply:
             return jsonify({"error": "Missing message or previous reply."}), 400
 
-
-        # Clean and process inputs
         clean_message = remove_personal_info(message)
         clean_instruction = remove_personal_info(instruction)
         url_map = parse_url_box(url_box_text)
         
-        # Get current date
         today_date = datetime.now().strftime('%d %B %Y')
         
-        # Build revision prompt
         prompt = f"""
 TODAY'S DATE IS {today_date}.
 
@@ -412,10 +548,9 @@ You are responding on behalf of the admissions team at an independent Preschool�
 Please revise the email reply below based on the parent's original inquiry and the revision instruction provided.
 
 Only use URLs provided in this dictionary:
-{json.dumps(URL_MAPPING, indent=2)}
+{json.dumps(load_url_mapping(), indent=2)}
 
 Do not mention viewbooks, or brochures or invent any links, that do not appear in that list.
-
 
 Follow these essential rules:
 - Use American spelling and terminology (e.g. enrollment, program, counselor, fall, etc.)
@@ -430,30 +565,24 @@ Admissions Team
 St. Margaret’s Episcopal School
 
 Original Parent Inquiry:
-\"\"\"{clean_message}\"\"\"
+\"\"\"{clean_message}\"\"
 
 Previous Reply:
-\"\"\"{previous_reply}\"\"\"
+\"\"\"{previous_reply}\"\"
 
 Revision Instruction:
 \"\"\"{clean_instruction}\"\"\"
 """.strip()
 
-        # Generate revised reply
         reply_md = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.4
         ).choices[0].message.content.strip()
         
-
-        # Clean and process the reply
         reply_md = clean_gpt_email_output(reply_md)
 
-        # Default score and strategy in case sentiment fails
         score, strat = 5, "Revised response"
-
-        # Try sentiment detection
         try:
             sent_prompt = f"""
         You are an expert school admissions assistant.
@@ -479,9 +608,8 @@ Revision Instruction:
             score = int(sent.get("score", 5))
             strat = sent.get("strategy", strat)
         except:
-            pass  # fallback to default values
+            pass
 
-        # Add subtle CTA (now safe to use score)
         if "visit" in clean_message.lower():
             reply_md += "\n\nIf you haven’t yet had a chance to visit us, we’d be delighted to welcome you to the school."
         elif "fees" in clean_message.lower():
@@ -492,16 +620,9 @@ Revision Instruction:
             reply_md += "\n\nDo let me know if you’d like me to send a personalised prospectus tailored to your daughter’s interests."
 
         reply_md = insert_links(reply_md, url_map)
-
-
-        
-        # Convert to different formats
         reply_html = markdown_to_html(reply_md)
-        reply_outlook = markdown_to_outlook_html(reply_md)  # Uses the improved function
+        reply_outlook = markdown_to_outlook_html(reply_md)
         
-       
-        
-        # Extract links for response
         def extract_links_from_html(html):
             matches = re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', html)
             return [(text.strip(), url.strip()) for url, text in matches]
@@ -535,14 +656,12 @@ def save_standard_reply():
         if not message or not reply:
             return jsonify({"error": "Missing message or reply."}), 400
 
-        # Load existing saved responses
         path = "standard_responses.json"
         saved = []
         if os.path.exists(path):
             with open(path, "r") as f:
                 saved = json.load(f)
 
-        # Add new entry
         entry = {
             "message": message,
             "reply": reply,
@@ -558,41 +677,118 @@ def save_standard_reply():
         print(f"❌ SAVE ERROR: {e}")
         return jsonify({"error": "Internal server error during save."}), 500
 
+# ─────────── SMART LINK MAPPINGS ENDPOINTS ───────────
 
-# ─────────── PDF UPLOAD ENDPOINT ───────────
-import os
-from flask import request
-from werkzeug.utils import secure_filename
+@app.route("/get-url-mappings", methods=["GET"])
+def get_url_mappings():
+    try:
+        mapping = load_url_mapping()
+        return jsonify(mapping)
+    except Exception as e:
+        print(f"❌ Error reading URL_MAPPING: {e}")
+        return jsonify({}), 500
 
-UPLOAD_FOLDER = "uploaded_pdfs"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+@app.route("/save-url-mappings", methods=["POST"])
+def save_url_mappings():
+    try:
+        new_data = request.get_json(force=True)
+        if not isinstance(new_data, dict):
+            return jsonify({"error": "Invalid data format"}), 400
+        with open("url_mapping.py", "w") as f:
+            f.write("# Auto-generated URL mapping file\n")
+            f.write("URL_MAPPING = " + json.dumps(new_data, indent=2))
+        return jsonify({"status": "saved"})
+    except Exception as e:
+        print(f"❌ Error saving URL_MAPPING: {e}")
+        return jsonify({"error": "Failed to save mappings"}), 500
 
-@app.route("/upload-pdfs", methods=["POST"])
-def upload_pdfs():
-    files = request.files.getlist("pdfs")
-    saved = []
+# ───────────── MAIN ─────────────
 
-    for file in files:
-        fname = secure_filename(file.filename)
-        if not fname.lower().endswith(".pdf"):
-            continue
+@app.route("/create-replies", methods=["POST"])
+def create_replies():
+    try:
+        data = request.get_json()
+        raw_thread = data.get("thread", "").strip()
+        if not raw_thread:
+            return jsonify({"error": "Missing thread"}), 400
 
-        path = os.path.join(UPLOAD_FOLDER, fname)
-        file.save(path)
+        prompt = f"""
+You're helping extract message+reply pairs from a school admissions email thread.
 
-        # 🔥 Automatically embed the PDF
-        chunks = process_pdf_and_append_to_kb(path)
-        saved.append(f"{fname} ({chunks} chunks)")
+From the pasted thread below, extract any distinct questions/comments from the parent and the matching replies (if any). Remove greetings and sign-offs. Return an array of JSON objects with keys:
 
-    if saved:
-        return f"✅ Uploaded and embedded: {', '.join(saved)}"
-    return "❌ No valid PDFs uploaded."
+- "message": the redacted parent question
+- "reply": the matching reply (if present)
 
-# ─────────── END PDF UPLOAD ENDPOINT ────────
+Only output a valid JSON list. Do not explain anything.
+
+THREAD:
+\"\"\"{raw_thread}\"\"\"
+""".strip()
+
+        res = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3
+        )
+
+        raw_text = res.choices[0].message.content.strip()
+        if raw_text.startswith("```json"):
+            raw_text = raw_text[7:]
+        if raw_text.endswith("```"):
+            raw_text = raw_text[:-3]
+
+
+        try:
+            json_start = raw_text.find("[")
+            if json_start == -1:
+                raise ValueError("No JSON array found in model output.")
+            json_data = raw_text[json_start:]
+            parsed = json.loads(json_data)
+            if not isinstance(parsed, list):
+                raise ValueError("Parsed result is not a list.")
+            return jsonify({"pairs": parsed})
+        except Exception as inner_e:
+            print("⚠️ GPT raw response:", raw_text)
+            raise inner_e
+
+    except Exception as e:
+        print(f"❌ CREATE ERROR: {e}")
+        return jsonify({"error": "Failed to create valid replies."}), 500
+
+
+@app.route("/save-standard-batch", methods=["POST"])
+def save_standard_batch():
+    data = request.get_json()
+    entries = data.get("entries", [])
+
+    if not entries:
+        return jsonify({"error": "No entries received"}), 400
+
+    try:
+        with open("standard_responses.json", "r") as f:
+            existing = json.load(f)
+    except:
+        existing = []
+
+    for e in entries:
+        if e.get("message") and e.get("reply"):
+            existing.append({
+                "message": e["message"],
+                "reply": e["reply"]
+            })
+
+    with open("standard_responses.json", "w") as f:
+        json.dump(existing, f, indent=2)
+
+    return jsonify({"message": "✅ Saved"}), 200
+
 
 
 @app.route("/")
-def index(): return render_template("index.html")
+def index(): 
+    return render_template("index.html")
 
 if __name__ == "__main__":
+    load_dotenv()
     app.run(debug=True)

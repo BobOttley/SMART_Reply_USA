@@ -2,101 +2,193 @@
   {
     "message": "What grades does your school serve?",
     "reply": "We serve students from Preschool through Grade 12, offering a continuous, college-preparatory education across all divisions.",
-    "variants": ["What age groups do you accept?", "Do you have high school?", "Do you offer elementary and middle school?"]
+    "variants": [
+      "What age groups do you accept?",
+      "Do you have high school?",
+      "Do you offer elementary and middle school?"
+    ]
   },
   {
     "message": "How do I apply?",
     "reply": "You can begin the application process through our [Admissions page](https://www.smes.org/admissions). Our team is happy to guide you at any stage.",
-    "variants": ["Where do I start my application?", "How do I submit an application for my child?", "Can I apply online?"]
+    "variants": [
+      "Where do I start my application?",
+      "How do I submit an application for my child?",
+      "Can I apply online?"
+    ]
   },
   {
     "message": "Do you offer financial aid?",
     "reply": "Yes, we offer need-based tuition assistance. Visit our [Tuition and Financial Support](https://www.smes.org/admissions/tuition-and-financial-support) page for details and deadlines.",
-    "variants": ["How do I apply for financial assistance?", "Is there any tuition help?", "Do you have scholarships or aid?"]
+    "variants": [
+      "How do I apply for financial assistance?",
+      "Is there any tuition help?",
+      "Do you have scholarships or aid?"
+    ]
   },
   {
     "message": "What is the annual tuition?",
     "reply": "Our tuition varies by grade level. You can find a full breakdown on our [Tuition and Financial Support](https://www.smes.org/admissions/tuition-and-financial-support) page.",
-    "variants": ["How much is tuition?", "What does it cost to attend?", "Can you send tuition info?"]
+    "variants": [
+      "How much is tuition?",
+      "What does it cost to attend?",
+      "Can you send tuition info?"
+    ]
   },
   {
     "message": "Do you offer tours or open houses?",
     "reply": "Yes, we welcome prospective families to visit! Please see our upcoming opportunities on the [Admissions Events](https://www.smes.org/admissions/admission-events) page.",
-    "variants": ["Can we visit the campus?", "Are there open house dates?", "How can I tour the school?"]
+    "variants": [
+      "Can we visit the campus?",
+      "Are there open house dates?",
+      "How can I tour the school?"
+    ]
   },
   {
-    "message": "What is your school’s educational philosophy?",
+    "message": "What is your school\u2019s educational philosophy?",
     "reply": "We believe in educating both the heart and mind. Our curriculum blends academic rigor with leadership, service, and character development.",
-    "variants": ["What is your mission?", "Do you focus on whole-child development?", "How would you describe your values?"]
+    "variants": [
+      "What is your mission?",
+      "Do you focus on whole-child development?",
+      "How would you describe your values?"
+    ]
   },
   {
     "message": "How large are the class sizes?",
     "reply": "Class sizes are intentionally small to allow for individual attention and strong teacher-student relationships.",
-    "variants": ["What’s your student-to-teacher ratio?", "Are classes small?", "How many students per class?"]
+    "variants": [
+      "What\u2019s your student-to-teacher ratio?",
+      "Are classes small?",
+      "How many students per class?"
+    ]
   },
   {
     "message": "Do you have a STEM or STEAM program?",
     "reply": "Yes, we offer an integrated STEAM program from Early School through Upper School, including innovation labs and project-based learning.",
-    "variants": ["Is STEM part of the curriculum?", "What about science and tech?", "Do you offer robotics or coding?"]
+    "variants": [
+      "Is STEM part of the curriculum?",
+      "What about science and tech?",
+      "Do you offer robotics or coding?"
+    ]
   },
   {
     "message": "What athletics do you offer?",
     "reply": "We offer a full athletic program with over 25 varsity teams, along with middle school and intramural sports. Learn more on our [Athletics page](https://www.smes.org/athletics).",
-    "variants": ["Do you have sports teams?", "What sports are available?", "Can my child play football or basketball?"]
+    "variants": [
+      "Do you have sports teams?",
+      "What sports are available?",
+      "Can my child play football or basketball?"
+    ]
   },
   {
     "message": "What is the college placement record?",
     "reply": "100% of our graduates are accepted to four-year colleges and universities, with personalized support from our [College Counseling team](https://www.smes.org/academics/college-counseling).",
-    "variants": ["Do students go to good colleges?", "Is there a college counselor?", "What’s your college placement like?"]
+    "variants": [
+      "Do students go to good colleges?",
+      "Is there a college counselor?",
+      "What\u2019s your college placement like?"
+    ]
   },
   {
     "message": "Do you offer arts programs?",
     "reply": "Yes, our vibrant arts program includes visual arts, music, theater, and dance, with performances and exhibits year-round.",
-    "variants": ["Can students do drama or music?", "What about fine arts?", "Do you have a theater program?"]
+    "variants": [
+      "Can students do drama or music?",
+      "What about fine arts?",
+      "Do you have a theater program?"
+    ]
   },
   {
     "message": "Can international students apply?",
     "reply": "Yes, international students are welcome and supported through our admissions process. Contact us if you need help with documentation or visas.",
-    "variants": ["Do you take students from overseas?", "What if my child is international?", "Can I apply from abroad?"]
+    "variants": [
+      "Do you take students from overseas?",
+      "What if my child is international?",
+      "Can I apply from abroad?"
+    ]
   },
   {
     "message": "What safety measures do you have in place?",
     "reply": "Student safety is a top priority. Our campus has controlled access, trained security staff, and comprehensive emergency protocols.",
-    "variants": ["Is the school secure?", "How do you keep students safe?", "What are your safety policies?"]
+    "variants": [
+      "Is the school secure?",
+      "How do you keep students safe?",
+      "What are your safety policies?"
+    ]
   },
   {
     "message": "Do you offer extended day or after-school care?",
     "reply": "Yes, we offer extended day programs and enrichment activities across all divisions to support working families.",
-    "variants": ["Is there childcare after school?", "Can my child stay past 3pm?", "Do you have aftercare?"]
+    "variants": [
+      "Is there childcare after school?",
+      "Can my child stay past 3pm?",
+      "Do you have aftercare?"
+    ]
   },
   {
     "message": "What is the admissions timeline?",
     "reply": "Our admissions season typically runs from fall through early spring. Visit our [Admissions page](https://www.smes.org/admissions) for key dates and deadlines.",
-    "variants": ["When should I apply?", "What are the deadlines?", "When is enrollment open?"]
+    "variants": [
+      "When should I apply?",
+      "What are the deadlines?",
+      "When is enrollment open?"
+    ]
   },
   {
     "message": "Can we speak with a current parent or student?",
-    "reply": "Absolutely — we're happy to connect you with current families to hear about their experiences directly. Let us know your interests and we’ll arrange it.",
-    "variants": ["Can I talk to another parent?", "Do you offer peer connections?", "Can I get a parent reference?"]
+    "reply": "Absolutely \u2014 we're happy to connect you with current families to hear about their experiences directly. Let us know your interests and we\u2019ll arrange it.",
+    "variants": [
+      "Can I talk to another parent?",
+      "Do you offer peer connections?",
+      "Can I get a parent reference?"
+    ]
   },
   {
     "message": "Do you offer support for learning differences?",
     "reply": "Yes, we provide a range of support services through our Student Support team to meet diverse learning needs.",
-    "variants": ["Is there help for dyslexia?", "Do you support ADHD?", "Can you accommodate special needs?"]
+    "variants": [
+      "Is there help for dyslexia?",
+      "Do you support ADHD?",
+      "Can you accommodate special needs?"
+    ]
   },
   {
     "message": "How diverse is your school community?",
     "reply": "We value and celebrate diversity in all forms. Our community includes students from many backgrounds and beliefs, with strong equity and inclusion initiatives.",
-    "variants": ["Is the school diverse?", "What backgrounds do your students come from?", "Do you have DEI programs?"]
+    "variants": [
+      "Is the school diverse?",
+      "What backgrounds do your students come from?",
+      "Do you have DEI programs?"
+    ]
   },
   {
     "message": "What are the class start and end times?",
     "reply": "School hours vary slightly by division, but typically run from 8:00 AM to 3:00 PM. Full details are on our [Parent Information page](https://www.smes.org/parent-info).",
-    "variants": ["What time does school start?", "When is pick-up?", "What are daily hours?"]
+    "variants": [
+      "What time does school start?",
+      "When is pick-up?",
+      "What are daily hours?"
+    ]
   },
   {
     "message": "Do you offer summer programs?",
-    "reply": "Yes, we offer a wide variety of [Summer at St. Margaret’s](https://www.smes.org/community/summer) programs, including academic enrichment, athletics, arts, and camps for all ages.",
-    "variants": ["Are there summer camps?", "Do you have summer school?", "What’s available in the summer?"]
+    "reply": "Yes, we offer a wide variety of [Summer at St. Margaret\u2019s](https://www.smes.org/community/summer) programs, including academic enrichment, athletics, arts, and camps for all ages.",
+    "variants": [
+      "Are there summer camps?",
+      "Do you have summer school?",
+      "What\u2019s available in the summer?"
+    ]
+  },
+  {
+    "message": "Could you please provide more information about the admissions timeline, upcoming campus visits, and whether there\u2019s still space available for Fall 2025?",
+    "reply": "We are currently accepting applications for Fall 2025 entry, including for Grade 6. While spaces are limited, we do encourage families to apply early. Our next Admissions Open House is scheduled for Wednesday, September 18, 2025 at 9:00 a.m., which would be an excellent opportunity for you to tour the campus, hear from faculty, and learn more about our program. The application deadline for priority consideration is December 15, 2025, and student visits and assessments typically take place in January."
+  },
+  {
+    "message": "Also, would it be possible to receive a digital version of your school profile or viewbook before the event?",
+    "reply": "In the meantime, here\u2019s our Digital Viewbook and a direct link to our STEM & Visual Arts programs."
+  },
+  {
+    "message": "Ava is particularly passionate about science and visual arts, so any information related to those programs would be greatly appreciated.",
+    "reply": "In the meantime, here\u2019s our Digital Viewbook and a direct link to our STEM & Visual Arts programs."
   }
 ]
