@@ -190,5 +190,20 @@
   {
     "message": "Ava is particularly passionate about science and visual arts, so any information related to those programs would be greatly appreciated.",
     "reply": "In the meantime, here\u2019s our Digital Viewbook and a direct link to our STEM & Visual Arts programs."
+  },
+  {
+    "message": "when is the new semester start",
+    "reply": "Thank you for your enquiry. A member of our admissions team will contact you shortly.",
+    "urls": []
+  },
+  {
+    "message": "what ar ethe annual fees",
+    "reply": "Dear [Parent's Name],\n\nThank you for reaching out to us with your inquiry about the annual fees at St. Margaret\u2019s Episcopal School. We appreciate your interest in our school community.\n\nThe annual fees vary depending on the grade level your child will be entering. For detailed information regarding tuition and financial support options, I encourage you to visit our Tuition and Financial Support page. This resource will give you a comprehensive overview of the fees associated with each grade level, as well as information on financial aid opportunities.\n\nIf you have any further questions or need assistance, please feel free to reach out. We\u2019re here to help!\n\nIf it would be helpful, I\u2019d be happy to connect you with our team to talk through tuition and financial aid options.\n\nKind regards,\nAdmissions Team\nSt. Margaret\u2019s Episcopal School",
+    "urls": []
+  },
+  {
+    "message": "can you please tell me what are the school fees",
+    "reply": "Dear Parent,\n\nThank you for reaching out to us regarding the school fees at St. Margaret\u2019s Episcopal School. We appreciate your interest in our community.\n\nFor detailed information about tuition and financial support for the upcoming school year, please visit our Tuition and Financial Support page. This resource will provide you with the most accurate and comprehensive details regarding our fee structure and any available financial assistance.\n\nIf you have any further questions or need additional assistance, please feel free to reach out.\n\nIf it would be helpful, I\u2019d be happy to connect you with our team to talk through tuition and financial aid options.\n\nKind regards,\nAdmissions Team\nSt. Margaret\u2019s Episcopal School",
+    "urls": []
   }
 ]

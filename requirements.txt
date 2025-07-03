@@ -9,6 +9,7 @@ requests==2.31.0
 beautifulsoup4==4.12.3
 PyPDF2==3.0.1
 markdownify==0.11.6
+pandas==2.2.2
 
 
 
